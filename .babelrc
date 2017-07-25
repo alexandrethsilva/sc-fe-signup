@@ -1,0 +1,32 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "debug": true,
+        "targets": {
+          "browsers": "last 2 versions",
+          "uglify": false
+        },
+        "modules": false,
+        "useBuiltIns": false,
+        "production": {
+          "presets": [
+            "babili"
+          ]
+        }
+      }
+    ],
+    "react",
+    "flow"
+  ],
+  "plugins": [
+    [
+      "transform-react-jsx",
+      {
+        "pragma": "h"
+      }
+    ]
+  ],
+  "retainLines": true
+}

@@ -1,0 +1,22 @@
+version: "2.1"
+
+services:
+  web:
+    container_name: "sc-fe-signups"
+    build: .
+    command: pm2-docker ./application/process.json
+    volumes:
+      - ./application:/application
+      - ./webpack:/webpack
+      - ./server.js:/server.js
+    environment:
+        - NODE_ENV=development
+        - HOST_ADDRESS=0.0.0.0
+        - HOST_PORT=80
+        - HOST_PROTOCOL=http
+        - DEBUG_PORT=5858
+    ports:
+      - "3006:80"
+      - "3586:5858"
+    restart: on-failure
+    network_mode: "webnet"
