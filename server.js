@@ -17,14 +17,11 @@ compiler.run((error, stats) => {
     return console.error(error)
   }
 
-  const PROTOCOL = process.env.HOST_PROTOCOL
   const HOST = process.env.HOST_ADDRESS
   const PORT = process.env.HOST_PORT
 
   const readStaticFiles = path =>
-    new Promise((resolve, reject) =>
-      readdir(path, (e, files) => (e ? reject(e) : resolve(files)))
-    )
+    new Promise((resolve, reject) => readdir(path, (e, files) => (e ? reject(e) : resolve(files))))
 
   const staticFilesPath = path.resolve(__dirname, "dist")
 
@@ -36,16 +33,17 @@ compiler.run((error, stats) => {
         const {componentName} = request.params
         const queriedFileName = !isNil(componentName) ? componentName : "index"
 
-        const file = components.find(fileName =>
-          new RegExp(`(${queriedFileName})\\.`, "g").exec(fileName)
-        )
+        const file =
+          queriedFileName.indexOf(".map") < 0
+            ? components.find(fileName => new RegExp(`(${queriedFileName})\\.`, "g").exec(fileName))
+            : components.find(fileName => fileName === queriedFileName)
 
         return file
           ? response.sendFile(path.resolve(staticFilesPath, file))
           : response.status(404).send("Resource not found.")
       })
 
-      console.info("🚧 Now available at %s://%s:%s", PROTOCOL, HOST, PORT)
+      console.info("🔺")
 
       return app.listen(PORT, HOST, e => (e ? console.log(e) : void 0))
     })

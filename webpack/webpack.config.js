@@ -4,6 +4,7 @@ const webpack = require("webpack")
 const CleanWebpackPlugin = require("clean-webpack-plugin")
 
 const baseConfig = {
+  devtool: "#source-map",
   module: {
     loaders: [
       {
@@ -41,24 +42,24 @@ const baseConfig = {
     fs: "empty",
   },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      beautify: false,
-      mangle: {
-        screw_ie8: true,
-        keep_fnames: false,
-      },
-      compress: {
-        screw_ie8: true,
-      },
-      comments: false,
-      sourceMap: true,
-      warningsFilter: () => false,
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: "common",
-      filename: "common.[hash]",
-      minChunks: Infinity,
-    }),
+    // new webpack.optimize.UglifyJsPlugin({
+    //   beautify: false,
+    //   mangle: {
+    //     screw_ie8: true,
+    //     keep_fnames: false,
+    //   },
+    //   compress: {
+    //     screw_ie8: true,
+    //   },
+    //   comments: false,
+    //   sourceMap: true,
+    //   warningsFilter: () => false,
+    // }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: "common",
+    //   filename: "common.[hash]",
+    //   minChunks: Infinity,
+    // }),
     new webpack.NoEmitOnErrorsPlugin(),
     new CleanWebpackPlugin(path.resolve(__dirname, "..", "dist"), {
       root: "/",
@@ -82,6 +83,7 @@ const bundlesConfig = Object.assign({}, baseConfig, {
     signup: `${componentsPath}/signup/signup.js`,
   },
   output: {
+    jsonpFunction: "scFeSignupJsonp",
     filename: "[name].[hash].js",
     path: componentsDistPath,
   },
