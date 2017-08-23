@@ -44,7 +44,7 @@
   margin: 0;
 }
 
-.signup-body input,
+.signup-body input:not([type="checkbox"]),
 .signup-body select {
   background: rgba(0, 0, 0, 0.06);
   border: none;
@@ -56,14 +56,35 @@
   width: 100%;
 }
 
+.signup-body input[type="checkbox"] {
+  margin-right: 0.3rem;
+}
+
+.signup-body label[for="shouldSignupNewsLetter"] {
+  color: RGBA(5, 26, 72, 1.00);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
 .signup-body select {
   height: 3rem;
+}
+
+.signup-highlight {
+  background-color: RGBA(0, 0, 0, 0.025);
+  border-radius: 0.2rem;
+  margin: 1rem 0 0 0;
+  padding: 0.5rem;
 }
 
 .signup-notice {
   color: rgba(0, 0, 0, 0.6);
   font-size: 0.8rem;
   text-align: center;
+}
+
+button[disabled] {
+  cursor: default;
 }
 
 .signup-button {
@@ -78,12 +99,12 @@
   transition-delay: 0;
 }
 
-.signup-button--primary {
+.signup-button--primary:not([disabled]) {
   color: #fff;
   background-color: var(--brandPrimary);
 }
 
-.signup-button--primary:hover {
+.signup-button--primary:hover:not([disabled]) {
   filter: saturate(2);
 }
 

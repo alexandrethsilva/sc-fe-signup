@@ -12,3 +12,4 @@ Thumbs.db
 # Application specific files
 node_modules
 application/node_modules
+yarn-error.log

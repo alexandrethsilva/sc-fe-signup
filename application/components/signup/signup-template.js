@@ -1,7 +1,7 @@
+import {API_ENDPOINT_SIGNUP} from "constants"
+import {curry, not} from "ramda"
 import {h} from "skatejs"
 import css from "./signup.css"
-
-import {identity} from "ramda"
 
 const Empty = message =>
   <div className="signup-container">
@@ -10,14 +10,20 @@ const Empty = message =>
     </div>
   </div>
 
-const Content = countries =>
+const Content = curry((handleSubmit, processing, redirect, countries) =>
   <div className="signup-container">
     <div className="signup-body">
-      <form id="sc-form-signup" method="post">
-        <div className="hidden ajax-spinner" />
-
-        <input type="hidden" id="data_source" name="data_source" value="www" />
-        <input type="hidden" id="invisible_captcha" name="invisible_captcha" value="false" />
+      <form
+        id="sc-form-signup"
+        method="post"
+        onSubmit={handleSubmit}
+        enctype="application/json"
+        action={
+          redirect ? `${API_ENDPOINT_SIGNUP}/login?redirect=${redirect}` : API_ENDPOINT_SIGNUP
+        }
+      >
+        <input type="hidden" id="applicationType" name="applicationType" value="standard" />
+        <input type="checkbox" id="tncAccepted" name="tncAccepted" checked style="display:none" />
 
         <input
           type="hidden"
@@ -25,8 +31,6 @@ const Content = countries =>
           name="sc_csrf"
           value="Fwa_u5zgZEJDxJAxVcoXIYNoS0cd5MPkrmBpMSWHe9Y"
         />
-        <input type="hidden" id="creation_flow" name="creation_flow" />
-        <input type="hidden" id="signup-pre-tick-eula" name="signup_pre_tick_eula" value="false" />
 
         <fieldset>
           <ul>
@@ -76,21 +80,27 @@ const Content = countries =>
               <label className="sr-only required" for="signup-country">
                 Country
               </label>
-              <select
-                id="signup-country"
-                name="country_month"
-                required="required"
-                className="signup-country"
-              >
-                {" "}<option value="" disabled="disabled" selected="selected">
+              <select id="country" name="country" required="required" className="signup-country">
+                {" "}<option value="" disabled selected>
                   Country
                 </option>{" "}
-                {countries.map(({name}) =>
-                  <option value={name}>
+                {countries.map(({name, alpha2Code: code}) =>
+                  <option value={code.toLowerCase()}>
                     {name}
                   </option>
                 )}
               </select>
+            </li>
+            <li className="signup-highlight">
+              <input
+                type="checkbox"
+                id="shouldSignupNewsLetter"
+                name="shouldSignupNewsLetter"
+                checked
+              />
+              <label className="required" for="shouldSignupNewsLetter">
+                Would you like to register for our newsletters?
+              </label>
             </li>
           </ul>
         </fieldset>
@@ -102,20 +112,23 @@ const Content = countries =>
         <button
           id="signup-button-submit"
           className="signup-button signup-button--primary signup-button--block"
-          type="button"
+          disabled={processing}
         >
           Register
         </button>
       </form>
     </div>
   </div>
+)
 
-const Signup = ({countries}) =>
+const Signup = ({handleSubmit, processing, redirect, countries}) =>
   h("div", false, [
     <style>
       {css}
     </style>,
-    !countries ? Empty("Preparing Signup...") : countries.bimap(Empty, Content).chain(identity),
+    not(countries)
+      ? Empty("Preparing Signup...")
+      : countries.either(Empty, Content(handleSubmit, processing, redirect)),
   ])
 
 export default Signup

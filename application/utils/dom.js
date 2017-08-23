@@ -19,3 +19,15 @@ export const getDom = element =>
   )
 
 export const listen = flip(Observable.fromEvent)
+
+export const preventDefault = event => {
+  // eslint-disable-next-line fp/no-unused-expression
+  event.preventDefault()
+  return event
+}
+
+export const stopPropagation = event => {
+  // eslint-disable-next-line fp/no-unused-expression
+  event.stopPropagation()
+  return event
+}

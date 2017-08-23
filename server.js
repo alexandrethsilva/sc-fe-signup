@@ -1,12 +1,12 @@
 /* eslint-disable better/no-ifs, better/no-new, fp/no-unused-expression */
+const {readdir} = require("fs")
 const path = require("path")
+const {isNil, not} = require("ramda")
 const express = require("express")
 const compression = require("compression")
-const {readdir} = require("fs")
-const {isNil} = require("ramda")
 
-const webpackConfig = require("../webpack/webpack.config.js")
 const webpack = require("webpack")
+const webpackConfig = require("./webpack/webpack.config.js")
 
 const app = express()
 app.use(compression({level: 9}))
@@ -31,7 +31,7 @@ compiler.run((error, stats) => {
 
       app.use("/:componentName", (request, response, next) => {
         const {componentName} = request.params
-        const queriedFileName = !isNil(componentName) ? componentName : "index"
+        const queriedFileName = not(isNil(componentName)) ? componentName : "index"
 
         const file =
           queriedFileName.indexOf(".map") < 0
@@ -45,6 +45,7 @@ compiler.run((error, stats) => {
 
       console.info("🔺")
 
+      // eslint-disable-next-line no-void
       return app.listen(PORT, HOST, e => (e ? console.log(e) : void 0))
     })
     .catch(console.error)

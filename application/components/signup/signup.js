@@ -8,13 +8,13 @@
 // import "@skatejs/web-components/es/native-shim"
 
 import {createStore} from "redux"
-import {Component} from "skatejs"
+import {Component, emit} from "skatejs"
 
-import {dispatchAction} from "utils/store"
 import {noop} from "utils"
 import {logError, installCE} from "utils/browser"
+import {dispatchAction} from "utils/store"
 
-import {loadSignupCountries} from "./signup-api"
+import {loadSignupCountries, submitSignup} from "./signup-api"
 import Signup from "./signup-template"
 import SignupStore from "./signup-store"
 
@@ -27,20 +27,60 @@ class SignupComponent extends Component {
     return {
       _csrf: {attribute: true},
       countries: {attribute: false},
+      processing: {attribute: false, default: false},
+      redirect: {attribute: true},
     }
   }
 
+  // eslint-disable-next-line fp/no-nil
   constructor() {
     super()
-
     this.store = createStore(SignupStore(this))
     this.dispatchSignupCountriesLoad = dispatchAction(this.store, "SIGNUP_LOAD_COUNTRIES")
+
+    // eslint-disable-next-line fp/no-nil
+    // this.handleClick = () => {
+    //   emit(this, "sc-signup-clicked", {
+    //     detail: {
+    //       data: "my-data",
+    //     },
+    //   })
+    // }
+
+    // eslint-disable-next-line fp/no-nil
+    this.handleSubmit = event => {
+      event.preventDefault()
+      event.stopPropagation()
+
+      emit(this, "sc-signup-submitted", {
+        detail: {
+          data: "my-data",
+        },
+      })
+
+      // dispatchAction(this.store, "SIGNUP_SUBMIT_REQUEST", {})
+
+      return submitSignup(event)
+    }
   }
 
   // eslint-disable-next-line fp/no-nil
   connectedCallback() {
     super.connectedCallback()
+
     loadSignupCountries().fork(logError, this.dispatchSignupCountriesLoad)
+
+    // Observable.fromEvent(document, "sc-signup-reverse").subscribe(event => {
+    //   console.info("FROM OUTSIDE")
+    //   console.log(event)
+    // })
+  }
+
+  // eslint-disable-next-line fp/no-nil
+  disconnectedCallback() {
+    super.disconnectedCallback()
+
+    // Observable.fromEvent(document, "sc-signup-reverse").unsubscribe()
   }
 
   renderCallback() {

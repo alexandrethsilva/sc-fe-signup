@@ -42,6 +42,7 @@ const baseConfig = {
     fs: "empty",
   },
   plugins: [
+    // eslint-disable-next-line capitalized-comments
     // new webpack.optimize.UglifyJsPlugin({
     //   beautify: false,
     //   mangle: {

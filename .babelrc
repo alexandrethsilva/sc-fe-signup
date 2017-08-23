@@ -8,25 +8,67 @@
           "browsers": "last 2 versions",
           "uglify": false
         },
-        "modules": false,
-        "useBuiltIns": false,
-        "production": {
-          "presets": [
-            "babili"
-          ]
-        }
+        "useBuiltIns": false
       }
     ],
     "react",
     "flow"
   ],
+  "env": {
+    "development": {
+      "env": {
+        "debug": true,
+        "modules": false,
+        "targets": {
+          "browsers": "last 2 versions",
+          "uglify": false
+        },
+        "useBuiltIns": false,
+        "exclude": [
+          "transform-regenerator"
+        ]
+      }
+    },
+    "test": {
+      "env": {
+        "debug": true,
+        "modules": "commonjs",
+        "targets": {
+          "browsers": "last 2 versions",
+          "uglify": false
+        },
+        "useBuiltIns": false,
+        "exclude": [
+          "transform-regenerator"
+        ]
+      }
+    },
+    "production": {
+      "env": {
+        "debug": true,
+        "modules": false,
+        "presets": [
+          "babili"
+        ],
+        "targets": {
+          "browsers": "last 2 versions",
+          "uglify": false
+        },
+        "useBuiltIns": false,
+        "exclude": [
+          "transform-regenerator"
+        ]
+      }
+    }
+  },
   "plugins": [
     [
       "transform-react-jsx",
       {
         "pragma": "h"
       }
-    ]
+    ],
+    "transform-imports"
   ],
   "retainLines": true
 }
