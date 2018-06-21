@@ -9,8 +9,6 @@ import {
   withBody,
   withMethod,
   responseMethod,
-  // fetchData,
-  // extractResponse,
 } from "../../application/utils/http"
 
 test(
