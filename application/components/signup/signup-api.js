@@ -5,12 +5,7 @@ import {
   extractResponse,
   fetchData,
   withCors,
-  // withJsonContent,
-  // withManualRedirect,
-  // withFollowRedirect,
-  // withMethod,
 } from "utils/http"
-// import {parseSubmissionEvent} from "utils/signup"
 
 import {anyPass, chain, compose, equals, filter, map, prop} from "ramda"
 
@@ -27,31 +22,9 @@ export const loadSignupCountries = () =>
 
 // eslint-disable-next-line fp/no-nil, better/explicit-return
 export const submitSignup = event => {
-  // eslint-disable-next-line fp/no-unused-expression
+  /* eslint-disable fp/no-unused-expression */
   event.preventDefault()
-  // eslint-disable-next-line fp/no-unused-expression
   event.stopPropagation()
-
-  // eslint-disable-next-line no-debugger
-  debugger
-  // eslint-disable-next-line fp/no-unused-expression
   event.target.submit()
-
-  // const body = omit(["confirm_email", "sc_csrf"], parseSubmissionEvent(event))
-
-  // const submissionUrl = redirectUrl
-  //   ? `${API_ENDPOINT_SIGNUP}/login?redirect=${encodeURIComponent(redirectUrl)}`
-  //   : `${API_ENDPOINT_SIGNUP}`
-
-  // return fetchData(
-  //   mergeAll([
-  //     // withCors,
-  //     // withJsonContent,
-  //     // withManualRedirect,
-  //     withFollowRedirect,
-  //     withMethod("post"),
-  //     {body: JSON.stringify(body)},
-  //   ]),
-  //   `${submissionUrl}`
-  // )
+  /* eslint-enable fp/no-unused-expression */
 }
