@@ -106,7 +106,7 @@ const Content = curry((handleSubmit, processing, redirect, countries) =>
         </fieldset>
         <div>
           <p className="signup-notice">
-            By clicking on register, you agree to Spotcap's terms & conditions and privacy policy
+            By clicking on register, you agree to the terms & conditions and privacy policy
           </p>
         </div>
         <button
